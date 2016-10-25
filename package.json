@@ -1,0 +1,18 @@
+{
+  "devDependencies": {
+    "exceljs": "^0.2.31",
+    "webpack": "^1.13.2"
+  },
+  "name": "operation-platform",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "exceljs": "^0.2.31"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
