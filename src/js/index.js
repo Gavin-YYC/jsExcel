@@ -32,25 +32,33 @@ $(function () {
       var workbook = XLSX.read(data, {type: 'binary'});
       var firstSheetName = workbook.SheetNames[0];
       var firstSheet = workbook.Sheets[ firstSheetName ];
-      renderTables( firstSheet, firstSheetName );
+      var sheet = formatSheet( firstSheet, firstSheetName );
+      renderTables( sheet );
     }
     reader.readAsBinaryString( file );
   }
 
-  function renderTables ( sheet, name ) {
-    var sheetLimit = sheet["!ref"].split(":");
-    var firstCol = sheetLimit[0].substr(0,1).charCodeAt();
-    var lastCol  = sheetLimit[1].substr(0,1).charCodeAt();
-    var firstRow = parseInt(sheetLimit[0].substr(1), 10);
-    var lastRow  = parseInt(sheetLimit[1].substr(1), 10);
+  function formatSheet ( firstSheet, firstSheetName ) {
+    var sheetLimit = firstSheet["!ref"].split(":");
+    var firstCol, lastCol, firstRow, lastRow;
+    sheet.sheet = firstSheet;
+    sheet.name  = firstSheetName;
+    sheet.firstCol = firstCol = sheetLimit[0].substr(0,1).charCodeAt();
+    sheet.lastCol  = lastCol  = lastCol  = sheetLimit[1].substr(0,1).charCodeAt();
+    sheet.firstRow = firstRow = parseInt(sheetLimit[0].substr(1), 10);
+    sheet.lastRow  = lastRow  = parseInt(sheetLimit[1].substr(1), 10);
+    return sheet;
+  }
+
+  function renderTables ( sheet ) {
     var tpl = '<table class="table table-striped table-bordered table-hover">';
-    tpl += '<tr class="title success"><td colspan="' + ( lastCol - firstCol + 1 ) + '">' + name + '</td></tr>'
-    for (var row = firstRow; row <= lastRow; row++) {
+    tpl += '<tr class="title success"><td colspan="' + ( sheet.lastCol - sheet.firstCol + 1 ) + '">' + sheet.name + '</td></tr>'
+    for (var row = sheet.firstRow; row <= sheet.lastRow; row++) {
       tpl += '<tr>';
-      for (var col = firstCol; col <= lastCol; col++) {
-        var cell = sheet[String.fromCharCode( col ) + row];
-        if ( !cell ) cell = {v:""};
-        tpl += '<td>' + cell.v + '</td>';
+      for (var col = sheet.firstCol; col <= sheet.lastCol; col++) {
+        var cell = sheet.sheet[String.fromCharCode( col ) + row];
+        if ( !cell || cell == 'undefined' ) cell = {w:""};
+        tpl += '<td>' + cell.w + '</td>';
       }
       tpl += '</tr>';
     }
@@ -61,8 +69,11 @@ $(function () {
   }
 
   var $wrapper = $('.wrapper');
-  var $preview = $('.preview');
+  var $preview = $('.preview .table-result');
   var $loading = $('.loading');
+  var sheet = {};
+
+  var $toJSONBtn = $('.to-json');
 
   $("body").on("dragenter", handleDragEnter)
        .on("dragover", handleDragOver)
@@ -73,5 +84,10 @@ $(function () {
     if ( e.originalEvent.pageX == 0 ) {
       $loading.hide();
     }
-  })
+  });
+
+  $toJSONBtn.on('click', function ( e ) {
+    e.preventDefault();
+    new ExcelToJson( sheet );
+  });
 })

@@ -3,54 +3,42 @@
   <head>
     <meta charset="utf-8">
     <title>活动运营配置平台</title>
-    <style media="screen">
-    .wrapper {
-      width: 400px;
-      margin: 0 auto;
-      margin-top: 100px;
-    }
-    .wrapper .drop {
-      height: 300px;
-      line-height: 300px;
-      font-size: 40px;
-      border: 2px dashed #bbb;
-      border-radius: 5px;
-      padding: 25px;
-      text-align: center;
-      color: #bbb;
-    }
-    .loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      color: #fff;
-      background-color: rgba(0, 0, 0, 0.8);
-      text-align: center;
-      font-size: 40px;
-      padding-top: 300px;
-      display: none;
-    }
-    .preview {
-      width: 70%;
-      margin: 0 auto;
-    }
-    .preview .title {
-      text-align: center;
-      font-weight: bold;
-    }
-    </style>
     <link href="./src/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./src/css/main.css" media="screen">
   </head>
   <body>
     <div class="wrapper">
       <div class='drop'>拖拽文件到此</div>
     </div>
-    <div class="preview"></div>
+    <div class="preview">
+      <div class="operate">
+        <a class="btn btn-default to-json">导出JSON</a>
+      </div>
+      <div class="table-result"></div>
+    </div>
     <div class="loading">松开鼠标</div>
+
+    <!--确认post数据-->
+    <div class="modal fade check-post-data" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header"><h4>选择需要提交给后台的数据（skuList部分）</h4></div>
+          <div class="modal-body">
+            <div class="check-area"></div>
+            <div class="preview-area">
+              <p>单项数据格式预览：</p>
+              <pre class="json-preview"></pre>
+            </div>
+            <button class="btn btn-info btn-block set-head-info">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="./src/lib/xlsx.core.min.js"></script>
     <script src="./src/lib/jquery.min.js"></script>
-    <script src="./src/index.js"></script>
+    <script src="./src/lib/bootstrap.min.js"></script>
+    <script src="./src/js/index.js"></script>
+    <script src="./src/js/main.js"></script>
   </body>
 </html>
