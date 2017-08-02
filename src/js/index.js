@@ -1,3 +1,7 @@
+// var $ = requrie("jquery");
+// var XLSX = require("xlsjs");
+// var ExcelToJson = require('./main');
+
 $(function () {
 
   function handleDragEnter ( e ) {

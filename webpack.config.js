@@ -1,7 +1,17 @@
+var path = require('path');
 module.exports = {
-    entry: __dirname + "/src/index.js",
+    entry: path.resolve(__dirname, "src/js/index.js"),
     output: {
-        path: __dirname + "/dist/",
-        filename: "bundle.js"
+      path: path.resolve(__dirname, 'dist/js'),
+      filename: 'bundle.js'
+    },
+    resolve: {
+      extensions: ['', '.js'],
+      alias: {
+        jquery: 'src/lib/jquery.min.js'
+      }
+    },
+    node: {
+      fs: "empty"
     }
 };
